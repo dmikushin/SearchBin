@@ -111,7 +111,7 @@ def get_args():
 		args = s.split(':')
 		
 		value = args.pop(2) # Pop item at index 2 (argument type).
-		if value: kwargs['type'] = eval(value) #(type)(value) # str(value) or long(value).
+		if value: kwargs['type'] = eval(value) #(type)(value) # str(value) or int(value).
 		value = args.pop(2) # Pop item at index 2 (argument metavar).
 		if value: kwargs['metavar'] = value
 		value = args.pop(2) # Pop item at index 2 (argument name/destination).
@@ -142,16 +142,16 @@ def get_args():
 				metavar='NUM', dest='max_matches',
 				help='maximum number of matches to find (0=infinite)')
 	except: # Python 2.
-		p.add_argument('-b', '--buffer-size', type=long,
+		p.add_argument('-b', '--buffer-size', type=int,
 				metavar='NUM', dest='bsize',
 				help='read buffer size (in bytes). default is 8388608 (8MB)')
-		p.add_argument('-s', '--start', type=long,
+		p.add_argument('-s', '--start', type=int,
 				metavar='NUM', dest='start',
 				help='starting position in file to begin searching, as bytes')
-		p.add_argument('-e', '--end', type=long,
+		p.add_argument('-e', '--end', type=int,
 				metavar='NUM', dest='end',
 				help='end search at this position, measuring from beginning of file')
-		p.add_argument('-m', '--max-matches', type=long,
+		p.add_argument('-m', '--max-matches', type=int,
 				metavar='NUM', dest='max_matches',
 				help='maximum number of matches to find (0=infinite)')
 	p.add_argument('-l', '--log', type=str,
@@ -244,7 +244,7 @@ def verify_args(ar):
 	try:
 		for attr in [ "bsize", "max_matches", "start", "end" ]:
 			if getattr(ar, attr):
-				setattr(ar, attr, long(getattr(ar, attr)))
+				setattr(ar, attr, int(getattr(ar, attr)))
 	except ValueError:
 		e = sys.exc_info()[1]
 		_exit_error("sizes", err=e)
